@@ -17,7 +17,9 @@ export default class AuthService {
         return { message: appMessages.LOGIN_SUCCESSFUL, isLogin: true };
       }
     } catch (error) {
-      if (error && error.response.status === HttpStatusCode.UnprocessableEntity) {
+      if (!error.response) {
+        return { message: appMessages.NETWORK_ERROR, isLogin: false };
+      } else if (error.response.status === HttpStatusCode.UnprocessableEntity) {
         return { message: error.response.data.Errors[0].Errors[0], isLogin: false };
       } else {
         return { message: error.response.data.detail, isLogin: false };
@@ -37,11 +39,21 @@ export default class AuthService {
         return { message: appMessages.REGISTER_SUCCESSFUL, isRegister: true };
       }
     } catch (error) {
-      if (error && error.response.status === HttpStatusCode.UnprocessableEntity) {
+      if (!error.response) {
+        return { message: appMessages.NETWORK_ERROR, isRegister: false };
+      } else if (error.response.status === HttpStatusCode.UnprocessableEntity) {
         return { message: error.response.data.Errors[0].Errors[0], isRegister: false };
       } else {
         return { message: error.response.data.detail, isRegister: false };
       }
     }
+  };
+
+  isLoggedIn = () => {
+    return Cookies.get('token') ? true : false;
+  };
+
+  logout = () => {
+    Cookies.remove('token');
   };
 }
