@@ -1,6 +1,8 @@
 module.exports = Object.freeze({
   LOGIN_SUCCESSFUL: "Login successful",
   REGISTER_SUCCESSFUL: "Account Created",
+  NETWORK_ERROR: "The server cannot be reached",
+  PASSWORD_DO_NOT_MATCH: "Passwords do not match",
   EMAIL_REQUIRED: "Email is required",
   EMAIL_INVALID: "Email is not valid",
   USERNAME_REQUIRED: "Username is required",
