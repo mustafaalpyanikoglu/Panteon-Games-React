@@ -8,12 +8,9 @@
 
 body {
   font-family: "Poppins", sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background: slateblue;
-  background: url('../public/images/background.jpg') no-repeat;
-  background-size: cover;
-  background-position: center;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
 }
