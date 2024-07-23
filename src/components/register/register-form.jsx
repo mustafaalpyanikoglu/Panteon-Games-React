@@ -1,9 +1,14 @@
 import React from 'react';
-import { CButton, CForm, CFormInput, CInputGroup, CInputGroupText } from '@coreui/react';
+import { CButton, CCol, CForm, CFormInput, CInputGroup, CInputGroupText, CRow } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilLockLocked, cilUser } from '@coreui/icons';
 
+
 const RegisterForm = ({ username, setUsername, email, setEmail, password, setPassword, repeatPassword, setRepeatPassword, handleRegister }) => {
+  const navigateToLogin = () => {
+    window.location.href = '/login';
+  };
+  
   return (
     <CForm onSubmit={handleRegister}>
       <h1>Register</h1>
@@ -42,9 +47,20 @@ const RegisterForm = ({ username, setUsername, email, setEmail, password, setPas
           onChange={(e) => setRepeatPassword(e.target.value)}
         />
       </CInputGroup>
-      <div className="d-grid">
-        <CButton type="submit" color="success">Create Account</CButton>
-      </div>
+      <CRow>
+        <CCol xs={6}>
+          <div className="d-grid">
+            <CButton type="submit" color="success">Create Account</CButton>
+          </div>
+        </CCol>
+        <CCol xs={6} className="text-right">
+          <div className="d-grid">
+            <CButton type='submit' color="info" className="px-0" onClick={navigateToLogin}>
+              I have an account.
+            </CButton>
+          </div>
+        </CCol>
+      </CRow>
     </CForm>
   );
 };
