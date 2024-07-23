@@ -13,7 +13,7 @@ import CIcon from '@coreui/icons-react'
 
 import { PGSidebarNav } from './nav/pg-sidebar-nav'
 
-import { logo } from '../../assets/brand/logo'
+import logo from '../../assets/images/Panteon.jpg'
 import { sygnet } from '../../assets/brand/sygnet'
 
 // sidebar nav config
