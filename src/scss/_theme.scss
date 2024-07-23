@@ -10,7 +10,7 @@ body {
   @include transition(padding .15s);
 }
 
-.header > .container-fluid,
+.header>.container-fluid,
 .sidebar-header {
   min-height: calc(4rem + 1px); // stylelint-disable-line function-disallowed-list
 }
@@ -43,7 +43,7 @@ body {
   }
 }
 
-.header > .container-fluid + .container-fluid {
+.header>.container-fluid+.container-fluid {
   min-height: 3rem;
 }
 
