@@ -1,6 +1,6 @@
 module.exports = Object.freeze({
   // base url
-  API_URL: 'https://localhost:7206/api/',
+  API_URL: 'https://panteon-games-chexbllmna-ew.a.run.app/api/',
 
   // auths routes
   LOGIN: 'Auths/Login',
