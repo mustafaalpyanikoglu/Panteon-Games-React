@@ -16,6 +16,7 @@
     "axios": "^1.7.2",
     "core-js": "^3.37.1",
     "js-cookie": "^3.0.5",
+    "jwt-decode": "^4.0.0",
     "mdb-react-ui-kit": "^8.0.0",
     "react": "^18.3.1",
     "react-devtools": "^5.3.1",
@@ -30,7 +31,6 @@
     "sass": "^1.77.8",
     "sass-loader": "^14.2.1",
     "simplebar-react": "^3.2.6",
-    "three": "^0.166.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
