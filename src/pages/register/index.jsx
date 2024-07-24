@@ -5,7 +5,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
 import RegisterForm from '../../components/register/register-form';
-import NotificationContainer from '../../components/notification/notification-container';
 import AuthService from '../../services/auth-service';
 import { PASSWORD_DO_NOT_MATCH } from '../../constants/app-messages';
 
@@ -29,7 +28,7 @@ const RegisterPage = () => {
       toast.success(response.message);
       setTimeout(() => {
         navigate('/login');
-      }, 1000);
+      }, 700);
     } else {
       toast.error(response.message);
     }
@@ -58,7 +57,6 @@ const RegisterPage = () => {
           </CCol>
         </CRow>
       </CContainer>
-      <NotificationContainer />
     </div>
   );
 };

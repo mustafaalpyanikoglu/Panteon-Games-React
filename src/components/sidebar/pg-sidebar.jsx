@@ -9,12 +9,10 @@ import {
   CSidebarHeader,
   CSidebarToggler,
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
 
 import { PGSidebarNav } from './nav/pg-sidebar-nav'
 
-import logo from '../../assets/images/Panteon.jpg'
-import { sygnet } from '../../assets/brand/sygnet'
+import logo from '../../assets/images/panteon.jpg'
 
 // sidebar nav config
 import navigation from '../../_nav'
@@ -37,8 +35,7 @@ const PGSidebar = () => {
     >
       <CSidebarHeader className="border-bottom">
         <CSidebarBrand to="/">
-          <CIcon customClassName="sidebar-brand-full" icon={logo} height={32} />
-          <CIcon customClassName="sidebar-brand-narrow" icon={sygnet} height={32} />
+        <img src={logo} alt="Logo" className="sidebar-brand-full" style={{ width: '100%', height: 'auto' }} />
         </CSidebarBrand>
         <CCloseButton
           className="d-lg-none"

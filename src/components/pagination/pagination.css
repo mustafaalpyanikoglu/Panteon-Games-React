@@ -1,0 +1,13 @@
+.pagination-item {
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pagination-item:hover:not(.disabled) {
+  background-color: #e9ecef;
+}
+
+.pagination-item.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}

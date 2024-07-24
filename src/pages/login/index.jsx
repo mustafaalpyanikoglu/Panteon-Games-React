@@ -6,7 +6,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import LoginForm from '../../components/login/login-form';
 import SignUpCard from '../../components/login/sign-up-card';
-import NotificationContainer from '../../components/notification/notification-container';
 import AuthService from '../../services/auth-service';
 import { useNavigate } from 'react-router-dom';
 
@@ -25,7 +24,7 @@ const LoginPage = () => {
       toast.success(response.message);
       setTimeout(() => {
         navigate('/configuration');
-      }, 1000);
+      }, 700);
     } else {
       toast.error(response.message);
     }
@@ -49,7 +48,6 @@ const LoginPage = () => {
           </CCol>
         </CRow>
       </CContainer>
-      <NotificationContainer />
     </div>
   );
 };

@@ -8,7 +8,7 @@ export default class BuildingConfigService {
   add = async (requestModel) => {
     try {
       const response = await axios.post(
-        `${constants.API_URL}/buildingconfigs/add`,
+        constants.BUILDING_CONFIGS,
         requestModel,
         {
           baseURL: constants.API_URL,
@@ -21,10 +21,14 @@ export default class BuildingConfigService {
         return { message: appMessages.ADD_SUCCESSFUL, isSuccess: true, data: response.data };
       }
     } catch (error) {
-      if (!error.response) {
-        return { message: appMessages.NETWORK_ERROR, isSuccess: false };
+      if (error.response.status === HttpStatusCode.InternalServerError) {
+        return { message: appMessages.NETWORK_ERROR, isLogin: false };
+      } else if (error.response.status === HttpStatusCode.UnprocessableEntity) {
+        return { message: error.response.data.Errors[0].Errors[0], isLogin: false };
+      } else if (error.response.status === HttpStatusCode.BadRequest) {
+        return { message: error.response.data.detail, isLogin: false };
       } else {
-        return { message: error.response.data.detail || appMessages.ERROR, isSuccess: false };
+        return { message: error.response.data.detail, isLogin: false };
       }
     }
   };
@@ -33,8 +37,9 @@ export default class BuildingConfigService {
   delete = async (requestModel) => {
     try {
       const response = await axios.delete(
-        `${constants.API_URL}/buildingconfigs/delete`,
+        constants.BUILDING_CONFIGS,
         {
+          baseURL: constants.API_URL,
           data: requestModel,
           headers: {
             Authorization: `Bearer ${Cookies.get('token')}`
@@ -45,10 +50,14 @@ export default class BuildingConfigService {
         return { message: appMessages.DELETE_SUCCESSFUL, isSuccess: true, data: response.data };
       }
     } catch (error) {
-      if (!error.response) {
-        return { message: appMessages.NETWORK_ERROR, isSuccess: false };
+      if (error.response.status === HttpStatusCode.InternalServerError) {
+        return { message: appMessages.NETWORK_ERROR, isLogin: false };
+      } else if (error.response.status === HttpStatusCode.UnprocessableEntity) {
+        return { message: error.response.data.Errors[0].Errors[0], isLogin: false };
+      } else if (error.response.status === HttpStatusCode.BadRequest) {
+        return { message: error.response.data.detail, isLogin: false };
       } else {
-        return { message: error.response.data.detail || appMessages.ERROR, isSuccess: false };
+        return { message: error.response.data.detail, isLogin: false };
       }
     }
   };
@@ -57,9 +66,10 @@ export default class BuildingConfigService {
   update = async (requestModel) => {
     try {
       const response = await axios.put(
-        `${constants.API_URL}/buildingconfigs/update`,
+        constants.BUILDING_CONFIGS,
         requestModel,
         {
+          baseURL: constants.API_URL,
           headers: {
             Authorization: `Bearer ${Cookies.get('token')}`
           }
@@ -69,10 +79,14 @@ export default class BuildingConfigService {
         return { message: appMessages.UPDATE_SUCCESSFUL, isSuccess: true, data: response.data };
       }
     } catch (error) {
-      if (!error.response) {
-        return { message: appMessages.NETWORK_ERROR, isSuccess: false };
+      if (error.response.status === HttpStatusCode.InternalServerError) {
+        return { message: appMessages.NETWORK_ERROR, isLogin: false };
+      } else if (error.response.status === HttpStatusCode.UnprocessableEntity) {
+        return { message: error.response.data.Errors[0].Errors[0], isLogin: false };
+      } else if (error.response.status === HttpStatusCode.BadRequest) {
+        return { message: error.response.data.detail, isLogin: false };
       } else {
-        return { message: error.response.data.detail || appMessages.ERROR, isSuccess: false };
+        return { message: error.response.data.detail, isLogin: false };
       }
     }
   };
@@ -81,8 +95,9 @@ export default class BuildingConfigService {
   getList = async () => {
     try {
       const response = await axios.get(
-        `${constants.API_URL}/buildingconfigs/getlist`,
+        constants.BUILDING_CONFIGS,
         {
+          baseURL: constants.API_URL,
           headers: {
             Authorization: `Bearer ${Cookies.get('token')}`
           }
@@ -92,10 +107,72 @@ export default class BuildingConfigService {
         return { message: appMessages.GET_LIST_SUCCESSFUL, isSuccess: true, data: response.data };
       }
     } catch (error) {
-      if (!error.response) {
-        return { message: appMessages.NETWORK_ERROR, isSuccess: false };
+      if (error.response.status === HttpStatusCode.InternalServerError) {
+        return { message: appMessages.NETWORK_ERROR, isLogin: false };
+      } else if (error.response.status === HttpStatusCode.UnprocessableEntity) {
+        return { message: error.response.data.Errors[0].Errors[0], isLogin: false };
+      } else if (error.response.status === HttpStatusCode.BadRequest) {
+        return { message: error.response.data.detail, isLogin: false };
       } else {
-        return { message: error.response.data.detail || appMessages.ERROR, isSuccess: false };
+        return { message: error.response.data.detail, isLogin: false };
+      }
+    }
+  };
+
+  // Get building type list
+  getBuildingTypeList = async () => {
+    try {
+      const response = await axios.get(
+        constants.BUILDING_CONFIGS + '/' + constants.GET_BUILDING_TYPE_LIST,
+        {
+          baseURL: constants.API_URL,
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`
+          }
+        }
+      );
+      if (response && response.status === HttpStatusCode.Ok) {
+        return { message: appMessages.GET_LIST_SUCCESSFUL, isSuccess: true, data: response.data };
+      }
+    } catch (error) {
+      if (error.response.status === HttpStatusCode.InternalServerError) {
+        return { message: appMessages.NETWORK_ERROR, isLogin: false };
+      } else if (error.response.status === HttpStatusCode.UnprocessableEntity) {
+        return { message: error.response.data.Errors[0].Errors[0], isLogin: false };
+      } else if (error.response.status === HttpStatusCode.BadRequest) {
+        return { message: error.response.data.detail, isLogin: false };
+      } else {
+        return { message: error.response.data.detail, isLogin: false };
+      }
+    }
+  };
+
+  // Get building configuration list
+  getListWithPagination = async (page = 0, pageSize = 10) => {
+    try {
+      const url = `${constants.BUILDING_CONFIGS}/${constants.BUILDING_CONFIGS_WITH_PAGINATION}?Page=${page}&PageSize=${pageSize}`;
+      const response = await axios.get(
+        url,
+        {
+          baseURL: constants.API_URL,
+          headers: {
+            Authorization: `Bearer ${Cookies.get('token')}`
+          }
+        }
+      );
+      if (response && response.status === HttpStatusCode.Ok) {
+        console.log('service:' + response.data);
+        return { message: appMessages.GET_LIST_SUCCESSFUL, isSuccess: true, data: response.data };
+      }
+    } catch (error) {
+      if (error.response.status === HttpStatusCode.InternalServerError) {
+        return { message: appMessages.NETWORK_ERROR, isLogin: false };
+      } else if (error.response.status === HttpStatusCode.UnprocessableEntity) {
+        return { message: error.response.data.Errors[0].Errors[0], isLogin: false };
+      } else if (error.response.status === HttpStatusCode.BadRequest) {
+        return { message: error.response.data.detail, isLogin: false };
+      } else {
+        return { message: error.response.data.detail, isLogin: false };
       }
     }
   };
@@ -104,8 +181,9 @@ export default class BuildingConfigService {
   getById = async (id) => {
     try {
       const response = await axios.get(
-        `${constants.API_URL}/buildingconfigs/${id}`,
+        `${constants.BUILDING_CONFIGS}/${id}`,
         {
+          baseURL: constants.API_URL,
           headers: {
             Authorization: `Bearer ${Cookies.get('token')}`
           }
@@ -115,10 +193,14 @@ export default class BuildingConfigService {
         return { message: appMessages.GET_BY_ID_SUCCESSFUL, isSuccess: true, data: response.data };
       }
     } catch (error) {
-      if (!error.response) {
-        return { message: appMessages.NETWORK_ERROR, isSuccess: false };
+      if (error.response.status === HttpStatusCode.InternalServerError) {
+        return { message: appMessages.NETWORK_ERROR, isLogin: false };
+      } else if (error.response.status === HttpStatusCode.UnprocessableEntity) {
+        return { message: error.response.data.Errors[0].Errors[0], isLogin: false };
+      } else if (error.response.status === HttpStatusCode.BadRequest) {
+        return { message: error.response.data.detail, isLogin: false };
       } else {
-        return { message: error.response.data.detail || appMessages.ERROR, isSuccess: false };
+        return { message: error.response.data.detail, isLogin: false };
       }
     }
   };
