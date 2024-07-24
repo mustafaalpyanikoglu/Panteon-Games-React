@@ -13,4 +13,10 @@ module.exports = Object.freeze({
   PASSWORD_LOWERCASE: "Password must contain at least one lowercase letter",
   PASSWORD_NUMBER: "Password must contain at least one number",
   PASSWORD_SPECIAL_CHAR: "Password must contain at least one special character",
+
+  ADD_SUCCESSFUL: "Configuration added successfully",
+  UPDATE_SUCCESSFUL: "Configuration updated successfully",
+  DELETE_SUCCESSFUL: "Configuration deleted successfully",
+  GET_LIST_SUCCESSFUL: "Configuration list retrieved successfully",
+  GET_BY_ID_SUCCESSFUL: "Configuration retrieved successfully",
 });
