@@ -19,4 +19,11 @@ module.exports = Object.freeze({
   DELETE_SUCCESSFUL: "Configuration deleted successfully",
   GET_LIST_SUCCESSFUL: "Configuration list retrieved successfully",
   GET_BY_ID_SUCCESSFUL: "Configuration retrieved successfully",
+
+  BUILDING_TYPE_REQUIRED: 'Please select a Building Type.',
+  BUILDING_COST_INVALID: 'Building Cost must be greater than zero.',
+  CONSTRUCTION_TIME_INVALID: 'Construction Time must be between 30 and 1800 seconds.',
+
+  LOGOUT_FAILED: 'Failed to log out. Please try again later.'
+
 });

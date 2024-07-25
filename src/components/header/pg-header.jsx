@@ -27,7 +27,8 @@ import {
 } from '@coreui/icons'
 import avatar8 from './../../assets/images/avatar-8.jpg'
 import AuthService from '../../services/auth-service'
-
+import { toast } from 'react-toastify'
+import { LOGOUT_FAILED } from '../../constants/app-messages'
 const PGHeader = () => {
   const headerRef = useRef()
   const { colorMode, setColorMode } = useColorModes('coreui-free-react-admin-template-theme')
@@ -46,10 +47,10 @@ const PGHeader = () => {
   const handleLogout = async () => {
     try {
       const authService = new AuthService()
-      authService.logout()
+      await authService.logout()
       navigate('/login')
     } catch (error) {
-      console.error("Logout error: ", error)
+      toast.error(LOGOUT_FAILED)
     }
   }
 
