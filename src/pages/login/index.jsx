@@ -18,7 +18,6 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     const requestModel = { username, password };
-    console.log('requestModel:', requestModel);
     const response = await authService.login(requestModel);
     if (response.isLogin) {
       toast.success(response.message);
