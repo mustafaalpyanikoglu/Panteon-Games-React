@@ -49,9 +49,7 @@ const ConfigurationPage = () => {
   const fetchConfigurations = async () => {
     try {
       setLoading(true);
-      console.log('Fetching configurations...');
       const result = await buildingConfigService.getListWithPagination(currentPage, 10);
-      console.log('Configurations fetch result:', result);
       setLoading(false);
 
       if (result.isSuccess) {
@@ -70,9 +68,7 @@ const ConfigurationPage = () => {
 
   const fetchBuildingTypes = async () => {
     try {
-      console.log('Fetching building types...');
       const result = await buildingConfigService.getBuildingTypeList();
-      console.log('Building types fetch result:', result);
 
       if (result.isSuccess) {
         const existingTypes = Object.values(BuildingTypeEnum);
@@ -94,7 +90,6 @@ const ConfigurationPage = () => {
 
   const handleAddConfig = async () => {
     try {
-      console.log('Adding new configuration:', newConfig);
       const result = await buildingConfigService.add({
         buildingType: parseInt(newConfig.BuildingType, 10),
         buildingCost: parseFloat(newConfig.BuildingCost),
@@ -116,7 +111,6 @@ const ConfigurationPage = () => {
 
   const handleEditConfig = async (updatedConfig) => {
     try {
-      console.log('Updating configuration:', updatedConfig);
       const result = await buildingConfigService.update(updatedConfig);
       if (result.isSuccess) {
         setTableData(tableData.map(config => config.id === updatedConfig.id ? result.data : config));
@@ -135,7 +129,6 @@ const ConfigurationPage = () => {
   const handleDeleteConfig = async () => {
     if (configToDelete) {
       try {
-        console.log('Deleting configuration:', configToDelete.id);
         const result = await buildingConfigService.delete({ id: configToDelete.id });
 
         if (result.isSuccess) {
