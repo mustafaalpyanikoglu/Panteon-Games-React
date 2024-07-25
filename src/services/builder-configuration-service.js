@@ -161,7 +161,6 @@ export default class BuildingConfigService {
         }
       );
       if (response && response.status === HttpStatusCode.Ok) {
-        console.log('service:' + response.data);
         return { message: appMessages.GET_LIST_SUCCESSFUL, isSuccess: true, data: response.data };
       }
     } catch (error) {

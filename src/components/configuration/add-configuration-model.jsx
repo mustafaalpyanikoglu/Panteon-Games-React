@@ -12,6 +12,7 @@ import {
 import { BuildingTypeNames } from '../../enums/building-type-enum';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {BUILDING_COST_INVALID, BUILDING_TYPE_REQUIRED, CONSTRUCTION_TIME_INVALID} from '../../constants/app-messages';
 
 const AddConfigurationModal = ({ showModal, onClose, onAdd, newConfig, setNewConfig, message, availableBuildingTypes }) => {
   useEffect(() => {
@@ -29,17 +30,17 @@ const AddConfigurationModal = ({ showModal, onClose, onAdd, newConfig, setNewCon
 
     // Check if any field is empty
     if (!BuildingType) {
-      toast.error('Please select a Building Type.');
+      toast.error(BUILDING_TYPE_REQUIRED);
       return;
     }
 
     if (!BuildingCost || parseFloat(BuildingCost) <= 0) {
-      toast.error('Building Cost must be greater than zero.');
+      toast.error(BUILDING_COST_INVALID);
       return;
     }
 
     if (!ConstructionTime || parseInt(ConstructionTime, 10) < 30 || parseInt(ConstructionTime, 10) > 1800) {
-      toast.error('Construction Time must be between 30 and 1800 seconds.');
+      toast.error(CONSTRUCTION_TIME_INVALID);
       return;
     }
 

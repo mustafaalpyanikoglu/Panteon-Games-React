@@ -47,43 +47,30 @@ const ConfigurationPage = () => {
 
   // Fetch configurations and building types
   const fetchConfigurations = async () => {
-    try {
-      setLoading(true);
-      console.log('Fetching configurations...');
-      const result = await buildingConfigService.getListWithPagination(currentPage, 10);
-      console.log('Configurations fetch result:', result);
-      setLoading(false);
+    setLoading(true);
+    const result = await buildingConfigService.getListWithPagination(currentPage, 10);
+    setLoading(false);
 
-      if (result.isSuccess) {
-        setTableData(result.data.items);
-        setTotalPages(result.data.pages);
-        setHasPrevious(result.data.hasPrevious);
-        setHasNext(result.data.hasNext);
-      } else {
-        setMessage(result.message);
-      }
-    } catch (error) {
-      console.error('Error fetching configurations:', error);
-      setLoading(false);
+    if (result.isSuccess) {
+      setTableData(result.data.items);
+      setTotalPages(result.data.pages);
+      setHasPrevious(result.data.hasPrevious);
+      setHasNext(result.data.hasNext);
+    } else {
+      toast.error(result.message || appMessages.NETWORK_ERROR);
     }
   };
 
   const fetchBuildingTypes = async () => {
-    try {
-      console.log('Fetching building types...');
-      const result = await buildingConfigService.getBuildingTypeList();
-      console.log('Building types fetch result:', result);
+    const result = await buildingConfigService.getBuildingTypeList();
 
-      if (result.isSuccess) {
-        const existingTypes = Object.values(BuildingTypeEnum);
-        const receivedTypes = result.data.map(type => type.buildingType);
-        const filteredTypes = existingTypes.filter(type => !receivedTypes.includes(type));
-        setAvailableBuildingTypes(filteredTypes);
-      } else {
-        toast.error(result.message);
-      }
-    } catch (error) {
-      console.error('Error fetching building types:', error);
+    if (result.isSuccess) {
+      const existingTypes = Object.values(BuildingTypeEnum);
+      const receivedTypes = result.data.map(type => type.buildingType);
+      const filteredTypes = existingTypes.filter(type => !receivedTypes.includes(type));
+      setAvailableBuildingTypes(filteredTypes);
+    } else {
+      toast.error(result.message || appMessages.NETWORK_ERROR);
     }
   };
 
@@ -93,62 +80,47 @@ const ConfigurationPage = () => {
   }, [currentPage]);
 
   const handleAddConfig = async () => {
-    try {
-      console.log('Adding new configuration:', newConfig);
-      const result = await buildingConfigService.add({
-        buildingType: parseInt(newConfig.BuildingType, 10),
-        buildingCost: parseFloat(newConfig.BuildingCost),
-        constructionTime: parseInt(newConfig.ConstructionTime, 10)
-      });
+    const result = await buildingConfigService.add({
+      buildingType: parseInt(newConfig.BuildingType, 10),
+      buildingCost: parseFloat(newConfig.BuildingCost),
+      constructionTime: parseInt(newConfig.ConstructionTime, 10)
+    });
 
-      if (result.isSuccess) {
-        setShowAddModal(false);
-        toast.success(appMessages.ADD_SUCCESSFUL);
-        await fetchConfigurations(); // Refetch configurations to include the new entry
-        await fetchBuildingTypes(); // Refetch building types to update available types
-      } else {
-        toast.error(result.message);
-      }
-    } catch (error) {
-      console.error('Error adding configuration:', error);
+    if (result.isSuccess) {
+      setShowAddModal(false);
+      toast.success(appMessages.ADD_SUCCESSFUL);
+      await fetchConfigurations(); // Refetch configurations to include the new entry
+      await fetchBuildingTypes(); // Refetch building types to update available types
+    } else {
+      toast.error(result.message || appMessages.NETWORK_ERROR);
     }
   };
 
   const handleEditConfig = async (updatedConfig) => {
-    try {
-      console.log('Updating configuration:', updatedConfig);
-      const result = await buildingConfigService.update(updatedConfig);
-      if (result.isSuccess) {
-        setTableData(tableData.map(config => config.id === updatedConfig.id ? result.data : config));
-        setShowEditModal(false);
-        toast.success(appMessages.UPDATE_SUCCESSFUL);
-        await fetchConfigurations(); // Refetch configurations to reflect changes
-        await fetchBuildingTypes(); // Optionally update building types if needed
-      } else {
-        toast.error(result.message);
-      }
-    } catch (error) {
-      console.error('Error updating configuration:', error);
+    const result = await buildingConfigService.update(updatedConfig);
+    if (result.isSuccess) {
+      setTableData(tableData.map(config => config.id === updatedConfig.id ? result.data : config));
+      setShowEditModal(false);
+      toast.success(appMessages.UPDATE_SUCCESSFUL);
+      await fetchConfigurations(); // Refetch configurations to reflect changes
+      await fetchBuildingTypes(); // Optionally update building types if needed
+    } else {
+      toast.error(result.message || appMessages.NETWORK_ERROR);
     }
   };
 
   const handleDeleteConfig = async () => {
     if (configToDelete) {
-      try {
-        console.log('Deleting configuration:', configToDelete.id);
-        const result = await buildingConfigService.delete({ id: configToDelete.id });
+      const result = await buildingConfigService.delete({ id: configToDelete.id });
 
-        if (result.isSuccess) {
-          setTableData(tableData.filter(config => config.id !== configToDelete.id));
-          setShowDeleteModal(false);
-          toast.success(appMessages.DELETE_SUCCESSFUL);
-          await fetchConfigurations(); // Refetch configurations to remove the deleted entry
-          await fetchBuildingTypes(); // Refetch building types to update available types
-        } else {
-          toast.error(result.message);
-        }
-      } catch (error) {
-        console.error('Error deleting configuration:', error);
+      if (result.isSuccess) {
+        setTableData(tableData.filter(config => config.id !== configToDelete.id));
+        setShowDeleteModal(false);
+        toast.success(appMessages.DELETE_SUCCESSFUL);
+        await fetchConfigurations(); // Refetch configurations to remove the deleted entry
+        await fetchBuildingTypes(); // Refetch building types to update available types
+      } else {
+        toast.error(result.message || appMessages.NETWORK_ERROR);
       }
     }
   };

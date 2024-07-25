@@ -12,7 +12,7 @@ import {
 
 import { PGSidebarNav } from './nav/pg-sidebar-nav'
 
-import logo from '../../assets/images/panteon.jpg'
+import logo from '../../assets/images/Panteon.jpg'
 
 // sidebar nav config
 import navigation from '../../_nav'
