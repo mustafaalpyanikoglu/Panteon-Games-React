@@ -12,16 +12,15 @@ import {
 import { BuildingTypeEnum, BuildingTypeNames } from '../../enums/building-type-enum';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { BUILDING_COST_INVALID, CONSTRUCTION_TIME_INVALID, BUILDING_TYPE_REQUIRED } from '../../constants/app-messages';
 
 const EditConfigurationModal = ({ showModal, onClose, item, onSave }) => {
   const [config, setConfig] = useState(item);
 
   useEffect(() => {
     if (showModal) {
-      // Set form data when modal opens
       setConfig(item);
     } else {
-      // Reset form data when modal closes
       setConfig({
         id: null,
         buildingType: '',
@@ -32,23 +31,29 @@ const EditConfigurationModal = ({ showModal, onClose, item, onSave }) => {
   }, [showModal, item]);
 
   const handleSave = () => {
-    const { buildingCost, constructionTime } = config;
+    const { buildingType, buildingCost, constructionTime } = config;
 
-    if (parseFloat(buildingCost) <= 0) {
-      toast.error('Building Cost must be greater than zero.');
+    // Check if any field is empty
+    if (!buildingType) {
+      toast.error(BUILDING_TYPE_REQUIRED);
       return;
     }
 
-    if (parseInt(constructionTime, 10) < 30 || parseInt(constructionTime, 10) > 1800) {
-      toast.error('Construction Time must be between 30 and 1800 seconds.');
+    if (!buildingCost || parseFloat(buildingCost) <= 0) {
+      toast.error(BUILDING_COST_INVALID);
+      return;
+    }
+
+    if (!constructionTime || parseInt(constructionTime, 10) < 30 || parseInt(constructionTime, 10) > 1800) {
+      toast.error(CONSTRUCTION_TIME_INVALID);
       return;
     }
 
     onSave({
       id: config.id,
-      buildingType: config.buildingType,
-      buildingCost: config.buildingCost,
-      constructionTime: config.constructionTime
+      buildingType,
+      buildingCost,
+      constructionTime
     });
   };
 
@@ -71,12 +76,17 @@ const EditConfigurationModal = ({ showModal, onClose, item, onSave }) => {
             type="number"
             label="Building Cost"
             value={config.buildingCost}
+            min="1"
+            step="1"
             onChange={(e) => setConfig({ ...config, buildingCost: e.target.value })}
           />
           <CFormInput
             type="number"
             label="Construction Time (Seconds)"
             value={config.constructionTime}
+            min="30"
+            max="1800"
+            step="1"
             onChange={(e) => setConfig({ ...config, constructionTime: e.target.value })}
           />
         </CForm>
